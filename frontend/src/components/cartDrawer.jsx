@@ -30,15 +30,13 @@ export default function CartDrawer() {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 80 }}
             >
-              {/* Glowing header */}
               <div className="relative p-6 border-b border-white/20">
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
-                  Your Cosmic Cart 🛒
+                  Your Cart 🛒
                 </h2>
                 <div className="absolute -top-10 right-10 w-32 h-32 bg-cyan-500/20 blur-3xl rounded-full animate-pulse" />
               </div>
 
-              {/* Items */}
               <div className="flex-1 overflow-y-auto space-y-4 p-6">
                 {loadingCart ? (
                   <p className="text-cyan-100 text-center">Loading cart...</p>
@@ -49,7 +47,6 @@ export default function CartDrawer() {
                 )}
               </div>
 
-              {/* Total & Checkout */}
               {cartItems.length > 0 && (
                 <div className="p-6 border-t border-white/20">
                   <div className="text-lg font-semibold text-white/90 mb-3">

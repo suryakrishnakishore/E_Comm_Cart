@@ -29,7 +29,7 @@ export default function CheckoutReceiptModal() {
                 🌌 Transaction Complete
               </h2>
               <p className="text-gray-300 mb-6">
-                Your cosmic order has been successfully placed!
+                Your order has been successfully placed!
               </p>
 
               {lastReceipt && (

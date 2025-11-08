@@ -45,7 +45,7 @@ export default function CheckoutFormModal({ show, onClose }) {
               Complete Your Journey
             </h2>
             <p className="text-gray-300 text-sm mb-6">
-              Enter your details to finalize your cosmic purchase ✨
+              Enter your details to finalize your purchase 
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
