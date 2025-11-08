@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useCart } from "../context/CartContext";
-import CartItem from "./CartItem";
+import CartItem from "./cartItem.jsx";
+import { useCart } from "../context/cartContext.jsx";
 
 export default function CartDrawer() {
   const { isCartOpen, setIsCartOpen, cartItems, total, setShowReceipt } = useCart();

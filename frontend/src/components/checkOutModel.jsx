@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/cartContext.jsx";
 
 export default function CheckoutModal() {
   const { showReceipt, setShowReceipt, total } = useCart();

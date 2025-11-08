@@ -1,5 +1,5 @@
 import { ShoppingCart } from "lucide-react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/cartContext.jsx";
 
 export default function FloatingCartButton() {
   const { isCartOpen, setIsCartOpen, cartItems } = useCart();

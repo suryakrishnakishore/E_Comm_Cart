@@ -1,7 +1,8 @@
-import ProductsPage from "./pages/ProductsPage";
-import FloatingCartButton from "./components/FloatingCartButton";
-import CartDrawer from "./components/CartDrawer";
-import CheckoutModal from "./components/CheckoutModal";
+import CartDrawer from "./components/cartDrawer.jsx";
+import CheckoutModal from "./components/checkOutModel.jsx";
+import FloatingCartButton from "./components/flotingCartButton.jsx";
+import ProductsPage from "./pages/productsPage.jsx";
+
 
 export default function App() {
   return (

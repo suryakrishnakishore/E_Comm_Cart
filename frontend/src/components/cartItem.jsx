@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { useCart } from "../context/CartContext";
 import { X } from "lucide-react";
+import { useCart } from "../context/cartContext.jsx";
 
 export default function CartItem({ item }) {
   const { removeFromCart } = useCart();

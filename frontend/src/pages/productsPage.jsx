@@ -1,4 +1,5 @@
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/cartContext.jsx";
+
 
 const mockProducts = [
   { id: 1, name: "Wireless Mouse", price: 599 },
