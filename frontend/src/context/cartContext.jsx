@@ -4,7 +4,7 @@ import client from "../api/client.js";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]); // [{ id, productId, name, price, qty }]
+  const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [lastReceipt, setLastReceipt] = useState(null);
@@ -36,7 +36,6 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, []);
 
-  // Add to cart (calls backend) — qty default 1
   const addToCart = async (product, qty = 1) => {
     try {
       await client.post("/cart", {
@@ -51,7 +50,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Remove specific cart item by cart item id
   const removeFromCart = async (cartItemId) => {
     try {
       await client.delete(`/cart/${cartItemId}`);
@@ -62,7 +60,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Update cart item qty
   const updateCartItem = async (cartItemId, qty) => {
     try {
       await client.put(`/cart/${cartItemId}`, { qty });
