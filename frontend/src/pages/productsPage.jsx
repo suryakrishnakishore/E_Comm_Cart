@@ -1,22 +1,37 @@
-import { useCart } from "../context/cartContext.jsx";
-
-
-const mockProducts = [
-  { id: 1, name: "Wireless Mouse", price: 599 },
-  { id: 2, name: "Keyboard", price: 899 },
-  { id: 3, name: "Headphones", price: 1299 },
-  { id: 4, name: "Laptop Stand", price: 999 },
-  { id: 5, name: "USB Cable", price: 199 },
-];
+import { useEffect, useState } from "react";
+import client from "../api/client";
+import { useCart } from "../context/CartContext";
 
 export default function ProductsPage() {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await client.get("/products"); // GET /api/products
+        setProducts(res.data);
+      } catch (err) {
+        setError("Failed to load products");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  if (loading) return <div className="p-8">Loading products...</div>;
+  if (error) return <div className="p-8 text-red-500">{error}</div>;
 
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-8">
-      {mockProducts.map((p) => (
+      {products.map((p) => (
         <div
-          key={p.id}
+          key={p._id ?? p.id}
           className="bg-white/40 backdrop-blur-xl rounded-3xl shadow-md p-6 text-center hover:scale-105 transition"
         >
           <div className="text-xl font-semibold">{p.name}</div>

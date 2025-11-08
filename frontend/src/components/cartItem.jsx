@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
+import { useCart } from "../context/CartContext";
 import { X } from "lucide-react";
-import { useCart } from "../context/cartContext.jsx";
 
 export default function CartItem({ item }) {
   const { removeFromCart } = useCart();
@@ -20,7 +20,7 @@ export default function CartItem({ item }) {
       <div className="flex items-center gap-2">
         <span className="font-semibold text-emerald-600">₹{item.price * item.qty}</span>
         <button
-          onClick={() => removeFromCart(item.id)}
+          onClick={() => removeFromCart(item.id)} // item.id maps to cartItem._id
           className="text-gray-500 hover:text-red-500 transition"
         >
           <X size={18} />
