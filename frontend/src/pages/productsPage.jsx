@@ -12,8 +12,13 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const res = await client.get("/products"); // GET /api/products
-        setProducts(res.data);
+        const res = await client.get("/products");
+        console.log("res: ", res);
+        
+        setProducts(res.data.products
+
+          
+        );
       } catch (err) {
         setError("Failed to load products");
         console.error(err);

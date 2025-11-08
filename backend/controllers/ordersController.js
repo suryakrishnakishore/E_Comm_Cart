@@ -1,18 +1,35 @@
+import CartItem from "../models/cartItem.js";
+import Order from "../models/order.js";
+
 export const checkout = async (req, res) => {
-  const { cartItems } = req.body;
   try {
+    const { cartItems, name, email } = req.body;
+
     const total = cartItems.reduce(
-      (sum, item) => sum + item.product.price * item.qty,
+      (sum, it) => sum + (it.price || 0) * (it.qty || 0),
       0
     );
 
-    const receipt = {
+    const order = await Order.create({
+      name,
+      email,
       total,
       timestamp: new Date(),
-    };
+      items: cartItems,
+    });
 
-    res.status(200).json(receipt);
+    // Clear the cart
+    await CartItem.deleteMany({});
+
+    res.json({
+      orderId: order._id,
+      name,
+      email,
+      total,
+      timestamp: order.timestamp,
+    });
   } catch (error) {
+    console.error("Checkout error:", error);
     res.status(500).json({ message: "Checkout failed" });
   }
 };

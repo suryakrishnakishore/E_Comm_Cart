@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/cartContext";
 
-export default function CheckoutModal() {
+export default function CheckoutReceiptModal() {
   const { showReceipt, setShowReceipt, lastReceipt } = useCart();
 
   if (!showReceipt) return null;
@@ -16,42 +16,34 @@ export default function CheckoutModal() {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full"
-            initial={{ scale: 0.8, opacity: 0 }}
+            className="bg-white/70 backdrop-blur-lg p-8 rounded-3xl shadow-xl text-center w-11/12 max-w-md"
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
+            exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: "spring", stiffness: 80 }}
           >
             <h2 className="text-2xl font-bold mb-3 text-emerald-600">
-              🎉 Checkout Successful!
+              🎉 Order Successful!
             </h2>
 
             {lastReceipt ? (
               <>
-                <p className="text-gray-700 text-lg mb-2">
-                  Total Paid:{" "}
-                  <span className="font-semibold text-emerald-700">
-                    ₹{lastReceipt.total}
-                  </span>
-                </p>
-                <p className="text-sm text-gray-600 mb-4">
-                  Transaction Time:{" "}
-                  {new Date(lastReceipt.timestamp).toLocaleString()}
-                </p>
+                <div className="text-left space-y-2 text-gray-800">
+                  <p><strong>Name:</strong> {lastReceipt.name}</p>
+                  <p><strong>Email:</strong> {lastReceipt.email}</p>
+                  <p><strong>Order ID:</strong> {lastReceipt.orderId}</p>
+                  <p>
+                    <strong>Timestamp:</strong>{" "}
+                    {new Date(lastReceipt.timestamp).toLocaleString()}
+                  </p>
+                  <p className="text-lg font-semibold text-emerald-700">
+                    Total Paid: ₹{lastReceipt.total}
+                  </p>
+                </div>
               </>
             ) : (
-              <p className="text-gray-600 mb-4">Receipt not available.</p>
+              <p className="text-gray-600">No receipt found.</p>
             )}
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <p className="text-sm text-gray-500">
-                Your receipt has been generated successfully.
-              </p>
-            </motion.div>
 
             <button
               onClick={() => setShowReceipt(false)}

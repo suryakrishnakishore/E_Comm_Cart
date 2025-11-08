@@ -4,7 +4,7 @@ import client from "../api/client.js";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); // [{ id, productId, name, price, qty }]
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [lastReceipt, setLastReceipt] = useState(null);
@@ -16,15 +16,13 @@ export const CartProvider = ({ children }) => {
     try {
       const res = await client.get("/cart");
       const payload = res.data;
-
       const items = (payload.items || []).map((it) => ({
         id: it._id,
         productId: it.product?._id || it.product,
-        name: it.product?.name ?? it.name,
-        price: it.product?.price ?? it.price,
+        name: it.product?.name ?? it.product?.name ?? "Unknown",
+        price: it.product?.price ?? 0,
         qty: it.qty,
       }));
-
       setCartItems(items);
     } catch (err) {
       console.error("fetchCart error", err);
@@ -38,6 +36,7 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, []);
 
+  // Add to cart (calls backend) — qty default 1
   const addToCart = async (product, qty = 1) => {
     try {
       await client.post("/cart", {
@@ -52,6 +51,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Remove specific cart item by cart item id
   const removeFromCart = async (cartItemId) => {
     try {
       await client.delete(`/cart/${cartItemId}`);
@@ -62,31 +62,43 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const checkout = async () => {
+  // Update cart item qty
+  const updateCartItem = async (cartItemId, qty) => {
     try {
-      const payloadItems = cartItems.map((it) => ({
-        productId: it.productId,
-        qty: it.qty,
-      }));
-      const res = await client.post("/checkout", { cartItems: payloadItems });
-
-      setLastReceipt(res.data);
-      setShowReceipt(true);
-
+      await client.put(`/cart/${cartItemId}`, { qty });
       await fetchCart();
-
-      return res.data;
     } catch (err) {
-      console.error("checkout error", err);
-      setError("Checkout failed");
-      throw err;
+      console.error("updateCartItem error", err);
+      setError("Failed to update item");
     }
   };
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0
-  );
+  const checkout = async (customer = { name: "", email: "" }) => {
+  try {
+    const payloadItems = cartItems.map((it) => ({
+      productId: it.productId,
+      qty: it.qty,
+      price: it.price,
+    }));
+
+    const res = await client.post("/checkout", {
+      cartItems: payloadItems,
+      name: customer.name,
+      email: customer.email,
+    });
+
+    setLastReceipt(res.data);
+    setShowReceipt(true);
+    await fetchCart(); // backend clears cart
+    return res.data;
+  } catch (err) {
+    console.error("checkout error", err);
+    setError("Checkout failed");
+    throw err;
+  }
+};
+
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   return (
     <CartContext.Provider
@@ -94,6 +106,7 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        updateCartItem,
         total,
         isCartOpen,
         setIsCartOpen,
