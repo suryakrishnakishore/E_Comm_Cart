@@ -1,18 +1,15 @@
-import { useState } from 'react';
+import ProductsPage from "./pages/ProductsPage";
+import FloatingCartButton from "./components/FloatingCartButton";
+import CartDrawer from "./components/CartDrawer";
+import CheckoutModal from "./components/CheckoutModal";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div className='text-3xl w-full flex justify-center '>
-        <h1>Hello World</h1>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="relative">
+      <ProductsPage />
+      <FloatingCartButton />
+      <CartDrawer />
+      <CheckoutModal />
+    </div>
+  );
 }
-
-export default App
