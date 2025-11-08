@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useCart } from "../context/CartContext";
-import CartItem from "./CartItem";
+import { useCart } from "../context/cartContext";
+import CartItem from "./cartItem";
 
 export default function CartDrawer() {
   const {
