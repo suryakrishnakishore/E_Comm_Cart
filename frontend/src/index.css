@@ -3,4 +3,44 @@
 body {
     @apply bg-gradient-to-br from-sky-100 via-emerald-100 to-purple-100 min-h-screen;
     font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top left, #001f3f, #000);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, 30px) scale(1.1);
+  }
+  100% {
+    transform: translate(-40px, -20px) scale(1);
+  }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.2), transparent 70%);
+    border-radius: 50%;
+    filter: blur(120px);
+    animation: float 10s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes float {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(100px, 100px);
+    }
 }
