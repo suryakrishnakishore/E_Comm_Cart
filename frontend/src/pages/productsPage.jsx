@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import client from "../api/client";
-import { useCart } from "../context/CartContext";
+import client from "../api/client.js";
+import { useCart } from "../context/cartContext.jsx";
 
 export default function ProductsPage() {
   const { addToCart } = useCart();
